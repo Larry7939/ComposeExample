@@ -8,11 +8,11 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.Stable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -33,9 +33,15 @@ class MainActivity : ComponentActivity() {
                         checked = selected,
                         onCheckedChange = { selected = it }
                     )
+//                    ContactsList(
+//                        isLoading = false,
+//                        names = listOf("Peter")
+//                    )
                     ContactsList(
-                        isLoading = false,
-                        names = listOf("Peter")
+                        ContactsListState(
+                            isLoading = false,
+                            names = listOf("Peter")
+                        )
                     )
                 }
             }
@@ -43,18 +49,39 @@ class MainActivity : ComponentActivity() {
     }
 }
 
+//@Composable
+//fun ContactsList(
+//    isLoading: ContactsListState = false,
+//    names: List<String>
+//) {
+//    Box(
+//        contentAlignment = Alignment.Center
+//    ) {
+//        if (isLoading) {
+//            CircularProgressIndicator()
+//        } else {
+//            Text(names.toString())
+//        }
+//    }
+//}
+
 @Composable
 fun ContactsList(
-    isLoading: Boolean,
-    names: List<String>
+    contactsListState: ContactsListState
 ) {
     Box(
         contentAlignment = Alignment.Center
     ) {
-        if (isLoading) {
+        if (contactsListState.isLoading) {
             CircularProgressIndicator()
         } else {
-            Text(names.toString())
+            Text(contactsListState.names.toString())
         }
     }
 }
+
+@Stable
+data class ContactsListState(
+    val isLoading: Boolean,
+    val names: List<String>
+)
